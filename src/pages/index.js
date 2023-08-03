@@ -1,4 +1,5 @@
-import { Layout } from "../components/layout";
+import Head from "next/head";
+import { Layout, siteTitle } from "../components/layout";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import utilStyles from "../styles/utils.module.css";
@@ -23,28 +24,33 @@ export const getStaticProps = async () => {
 
 export default function Home({ allPostsData }) {
   return (
-    <Layout>
-      {JSON.stringify(allPostsData)}
-      <section className={utilStyles.headingMd}>
-        <p>私は岸田文雄です</p>
-      </section>
-      <section>
-        <h2>📝商品一覧</h2>
-        <div className={styles.grid}>
-          {allPostsData.map(({ id, title, date, thumbnail }) => (
-            <article key={id}>
-              <Link href={`/posts/${id}`}>
-                <img src={`${thumbnail}`} />
-              </Link>
-              <Link href={`/posts/${id}`}>
-                <p className={utilStyles.boldText}>{title}</p>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>{date}</small>
-            </article>
-          ))}
-        </div>
-      </section>
-    </Layout>
+    <>
+      <Head>
+        <title>{siteTitle}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout home>
+        <section className={utilStyles.headingMd}>
+          <p>私は岸田文雄です</p>
+        </section>
+        <section>
+          <h2>📝商品一覧</h2>
+          <div className={styles.grid}>
+            {allPostsData.map(({ id, title, date, thumbnail }) => (
+              <article key={id}>
+                <Link href={`/posts/${id}`}>
+                  <img src={`${thumbnail}`} />
+                </Link>
+                <Link href={`/posts/${id}`}>
+                  <p className={utilStyles.boldText}>{title}</p>
+                </Link>
+                <br />
+                <small className={utilStyles.lightText}>{date}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+      </Layout>
+    </>
   );
 }
